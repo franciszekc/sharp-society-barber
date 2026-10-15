@@ -3,18 +3,15 @@
 require_once '../config/database.php';
 require_once '../includes/profile_functions.php';
 
-session_start();
+require_once '../includes/auth.php';
+
+requireLogin();
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-if (!isset($_SESSION['user_id'])) {
-    http_response_code(403);
-    exit('Musisz się zalogować, aby zobaczyć profil.');
-}
-
-$userId = (int) $_SESSION['user_id'];
+$userId = getUserId();
 
 $user = getUserProfile($pdo, $userId);
 
