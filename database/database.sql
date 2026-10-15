@@ -1,4 +1,6 @@
-CREATE DATABASE IF NOT EXISTS sharp_society_barber
+DROP DATABASE IF EXISTS sharp_society_barber;
+
+CREATE DATABASE sharp_society_barber
 CHARACTER SET utf8mb4
 COLLATE utf8mb4_polish_ci;
 
@@ -15,13 +17,13 @@ CREATE TABLE users (
     role ENUM('client', 'employee', 'admin') NOT NULL DEFAULT 'client',
     active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE TABLE service_categories (
     id INT   UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE TABLE services (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -30,27 +32,27 @@ CREATE TABLE services (
     description TEXT,
     duration INT UNSIGNED NOT NULL,
     price  DECIMAL(10,2) NOT NULL,
-    acrive BOOLEAN NOT NULL  DEFAULT TRUE,
+    active BOOLEAN NOT NULL  DEFAULT TRUE,
 
     CONSTRAINT fk_services_category
     FOREIGN KEY (category_id)
     references service_categories(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE TABLE employees (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNSIGNED NOT NULL UNIQUE,
     description TEXT,
-    acrive BOOLEAN NOT NULL DEFAULT TRUE,
+    active BOOLEAN NOT NULL DEFAULT TRUE,
 
-    CONSTRAINT fk_services_user
+    CONSTRAINT fk_employees_user
         FOREIGN KEY (user_id)
         references users(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE TABLE employee_services (
     employee_id INT UNSIGNED NOT NULL,
@@ -69,7 +71,7 @@ CREATE TABLE employee_services (
         REFERENCES services(id)
         ON UPDATE CASCADE
         ON DELETE CASCADE
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE TABLE employee_availability (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -89,7 +91,7 @@ CREATE TABLE employee_availability (
 
     CONSTRAINT chk_working_hours
         CHECK (start_time < end_time)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE TABLE reservations (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -128,7 +130,7 @@ CREATE TABLE reservations (
 
     CONSTRAINT chk_reservation_time
         CHECK (start_time < end_time)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
 CREATE INDEX idx_reservations_user
 ON reservations(user_id);
@@ -214,11 +216,11 @@ VALUES
 INSERT INTO employee_availability
 (employee_id, day_of_week, start_time, end_time)
 VALUES
-(1, 1, '09:00:00', '17:00:00'),
-(1, 2, '09:00:00', '17:00:00'),
-(1, 3, '12:00:00', '20:00:00'),
-(1, 4, '12:00:00', '20:00:00'),
-(1, 5, '09:00:00', '17:00:00');
+(2, 1, '09:00:00', '17:00:00'),
+(2, 2, '09:00:00', '17:00:00'),
+(2, 3, '12:00:00', '20:00:00'),
+(2, 4, '12:00:00', '20:00:00'),
+(2, 5, '09:00:00', '17:00:00');
 
 INSERT INTO reservations
 (user_id, employee_id, service_id, reservation_date,
