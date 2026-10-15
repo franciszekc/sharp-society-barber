@@ -1,11 +1,24 @@
+
 <?php
 
-session_start();
+require_once '../includes/auth.php';
 
-// Usunięcie wszystkich danych zapisanych w sesji
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    exit('Niedozwolona metoda żądania.');
+}
+
+if (
+    !isset($_POST['csrf_token'], $_SESSION['csrf_token']) ||
+    !is_string($_POST['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+) {
+    http_response_code(403);
+    exit('Nieprawidłowe żądanie.');
+}
+
 $_SESSION = [];
 
-// Usunięcie ciasteczek sesji
 if (ini_get('session.use_cookies')) {
     $params = session_get_cookie_params();
 
@@ -20,9 +33,7 @@ if (ini_get('session.use_cookies')) {
     );
 }
 
-// Zakończenie sesji po stronie serwera
 session_destroy();
 
-// Powrót do strony logowania
 header('Location: login.php');
 exit;

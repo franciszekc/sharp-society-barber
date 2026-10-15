@@ -6,6 +6,7 @@ require_once '../includes/profile_functions.php';
 require_once '../includes/auth.php';
 
 requireLogin();
+refreshUserSession($pdo);
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -203,7 +204,17 @@ function e(string $value): string
         <button type="submit">Zapisz zmiany</button>
 
     </form>
-    <p><a href="logout.php">Wyloguj się</a></p>
+
+    <form action="logout.php" method="POST">
+    <input
+        type="hidden"
+        name="csrf_token"
+        value="<?= e($_SESSION['csrf_token']) ?>"
+    >
+
+    <button type="submit">Wyloguj się</button>
+    
+</form>
 </div>
 
 <script>

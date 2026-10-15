@@ -46,3 +46,29 @@ function requireRole(string $role): void
         exit('Nie masz uprawnień do tej strony.');
     }
 }
+
+function refreshUserSession(PDO $pdo): void
+{
+    requireLogin();
+
+    $stmt = $pdo->prepare(
+        "SELECT id, name, role, active
+         FROM users
+         WHERE id = ?
+         LIMIT 1"
+    );
+
+    $stmt->execute([getUserId()]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$user || (int) $user['active'] !== 1) {
+        $_SESSION = [];
+        session_regenerate_id(true);
+
+        header('Location: login.php');
+        exit;
+    }
+
+    $_SESSION['user_name'] = $user['name'];
+    $_SESSION['user_role'] = $user['role'];
+}

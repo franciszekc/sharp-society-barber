@@ -13,7 +13,6 @@ function getUserProfile(PDO $pdo, int $userId): array|false
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-
 function updateUserProfile(
     PDO $pdo,
     int $userId,
@@ -31,7 +30,6 @@ function updateUserProfile(
         $errors[] = 'Imię i nazwisko są wymagane.';
     }
 
-
     if (mb_strlen($name) > 50 || mb_strlen($surname) > 50) {
         $errors[] = 'Imię i nazwisko mogą mieć maksymalnie 50 znaków.';
     }
@@ -44,19 +42,50 @@ function updateUserProfile(
         return ['success' => false, 'errors' => $errors];
     }
 
-
     $stmt = $pdo->prepare(
-        "UPDATE users
-         SET name = ?, surname = ?, phone = ?
-         WHERE id = ?"
+        "SELECT id
+         FROM users
+         WHERE phone = ? AND id != ?
+         LIMIT 1"
     );
 
-    $stmt->execute([
-        $name,
-        $surname,
-        $phone,
-        $userId
-    ]);
+    $stmt->execute([$phone, $userId]);
+
+    if ($stmt->fetch()) {
+        return [
+            'success' => false,
+            'errors' => [
+                'Ten numer telefonu jest już wykorzystany. Użyj innego.'
+            ]
+        ];
+    }
+
+    try {
+        $stmt = $pdo->prepare(
+            "UPDATE users
+             SET name = ?, surname = ?, phone = ?
+             WHERE id = ?"
+        );
+
+        $stmt->execute([
+            $name,
+            $surname,
+            $phone,
+            $userId
+        ]);
+
+    } catch (PDOException $e) {
+        if ($e->getCode() === '23000') {
+            return [
+                'success' => false,
+                'errors' => [
+                    'Ten numer telefonu jest już przypisany do innego konta.'
+                ]
+            ];
+        }
+
+        throw $e;
+    }
 
     return ['success' => true, 'errors' => []];
 }
