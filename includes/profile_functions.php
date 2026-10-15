@@ -19,60 +19,41 @@ function updateUserProfile(
     int $userId,
     string $name,
     string $surname,
-    string $email,
     string $phone
 ): array {
     $name = trim($name);
     $surname = trim($surname);
-    $email = trim($email);
     $phone = trim($phone);
 
     $errors = [];
 
-    if ($name === '' || $surname === '' || $email === '') {
-        $errors[] = 'Imię, nazwisko i e-mail są wymagane.';
+    if ($name === '' || $surname === '') {
+        $errors[] = 'Imię i nazwisko są wymagane.';
     }
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Podaj poprawny adres e-mail.';
+
+    if (mb_strlen($name) > 50 || mb_strlen($surname) > 50) {
+        $errors[] = 'Imię i nazwisko mogą mieć maksymalnie 50 znaków.';
     }
 
-    if (strlen($name) > 100 || strlen($surname) > 100) {
-        $errors[] = 'Imię i nazwisko mogą mieć maksymalnie 100 znaków.';
-    }
-
-    if (strlen($email) > 255 || strlen($phone) > 20) {
-        $errors[] = 'E-mail lub numer telefonu jest za długi.';
+    if (!preg_match('/^[0-9]{1,9}$/D', $phone)) {
+        $errors[] = 'Numer telefonu musi zawierać wyłącznie cyfry (maksymalnie 9).';
     }
 
     if (!empty($errors)) {
         return ['success' => false, 'errors' => $errors];
     }
 
-    $stmt = $pdo->prepare(
-        "SELECT id FROM users
-         WHERE email = ? AND id != ?"
-    );
-
-    $stmt->execute([$email, $userId]);
-
-    if ($stmt->fetch()) {
-        return [
-            'success' => false,
-            'errors' => ['Ten adres e-mail jest już zajęty.']
-        ];
-    }
 
     $stmt = $pdo->prepare(
         "UPDATE users
-         SET name = ?, surname = ?, email = ?, phone = ?
+         SET name = ?, surname = ?, phone = ?
          WHERE id = ?"
     );
 
     $stmt->execute([
         $name,
         $surname,
-        $email,
         $phone,
         $userId
     ]);

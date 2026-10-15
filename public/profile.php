@@ -42,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
     $name = $_POST['name'] ?? '';
     $surname = $_POST['surname'] ?? '';
-    $email = $_POST['email'] ?? '';
     $phone = $_POST['phone'] ?? '';
 
     $result = updateUserProfile(
@@ -50,7 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $userId,
         $name,
         $surname,
-        $email,
         $phone
     );
 
@@ -128,6 +126,11 @@ function e(string $value): string
             cursor: pointer;
         }
 
+        p {
+            text-align: center; 
+            margin-top: 20px;
+        }
+
         .error {
             color: #a00000;
             margin-bottom: 10px;
@@ -137,6 +140,7 @@ function e(string $value): string
             color: #087a20;
             margin-bottom: 10px;
         }
+
     </style>
 </head>
 <body>
@@ -181,7 +185,7 @@ function e(string $value): string
         <input
             type="email"
             id="email"
-            name="email"
+            readonly
             value="<?= e($email) ?>"
             required
         >
@@ -191,13 +195,25 @@ function e(string $value): string
             type="tel"
             id="phone"
             name="phone"
+            maxlength="9"
+            inputmode="numeric"
+            pattern="[0-9]{1,9}"
+            title="Wpisz maksymalnie 9 cyfr"
+            required
             value="<?= e($phone) ?>"
         >
 
         <button type="submit">Zapisz zmiany</button>
 
     </form>
+    <p><a href="logout.php">Wyloguj się</a></p>
 </div>
 
+<script>
+    const phoneInput = document.getElementById('phone');
+    phoneInput.addEventListener('input', () => {
+        phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '').slice(0, 9);
+    });
+</script>
 </body>
 </html>
