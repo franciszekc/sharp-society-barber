@@ -113,7 +113,8 @@ function e(string $value): string
             border-radius: 5px;
         }
 
-        button {
+        button,
+        .change-password-btn {
             width: 100%;
             padding: 12px;
             margin-top: 25px;
@@ -122,6 +123,16 @@ function e(string $value): string
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            box-sizing: border-box;
+            display: block;
+            text-align: center;
+            text-decoration: none;
+            font: inherit;
+        }
+
+        button:hover,
+        .change-password-btn:hover {
+            background-color: #555;
         }
 
         p {
@@ -138,6 +149,8 @@ function e(string $value): string
             color: #087a20;
             margin-bottom: 10px;
         }
+
+        
 
     </style>
 </head>
@@ -156,9 +169,9 @@ function e(string $value): string
 
     <form method="POST">
     <input
-    type="hidden"
-    name="csrf_token"
-    value="<?= e($_SESSION['csrf_token']) ?>"
+        type="hidden"
+        name="csrf_token"
+        value="<?= e($_SESSION['csrf_token']) ?>"
     >
 
         <label for="name">Imię</label>
@@ -204,6 +217,8 @@ function e(string $value): string
         <button type="submit">Zapisz zmiany</button>
 
     </form>
+
+    <a href="chgpasswd.php" class="change-password-btn">Zmień hasło</a>
 
     <form action="logout.php" method="POST">
     <input
