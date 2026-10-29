@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, 
+    sans-serif; 
+    margin: 0; 
+    padding: 32px 16px; 
+    background: #f4f4f4; 
+}
+
+.container { 
+    max-width: 470px; 
+    margin: 0 auto; 
+    padding: 28px; 
+    background: #fff; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 16px #00000014; 
+}
+
+h1 { 
+    margin-top: 0; 
+    text-align: center; 
+}
+
+label { 
+    display: block; 
+    margin-top: 15px; 
+    margin-bottom: 5px; 
+    font-weight: 600; 
+}
+
+input { 
+    box-sizing: border-box; 
+    width: 100%; 
+    padding: 11px; 
+    border: 1px solid #bbb; 
+    border-radius: 5px; 
+    font: inherit; 
+}
+
+input:focus { 
+    outline: 2px solid #555; 
+    outline-offset: 1px; 
+}
+
+.requirements { 
+    padding-left: 23px; 
+    margin: 10px 0 17px; 
+}
+
+.requirements li { 
+    color: #727272; 
+    margin: 6px 0; 
+    transition: color .15s; 
+}
+
+.requirements li.met { 
+    color: #15803d; 
+}
+
+.password-match { 
+    color: #727272; 
+    margin: 8px 0 12px; 
+    transition: color .15s; 
+}
+
+.password-match.met { 
+    color: #15803d; 
+}
+
+.message-error { 
+    color: #a00000; 
+}
+
+.message-success { 
+    color: #15803d; 
+}
+
+button { 
+    width: 100%; 
+    margin-top: 20px; 
+    padding: 12px; 
+    border: 0; 
+    border-radius: 5px; 
+    background: #222; 
+    color: white; 
+    cursor: pointer; 
+    font: inherit; 
+}
+
+.login-link { 
+    text-align: center; 
+    margin-top: 18px; 
+}
