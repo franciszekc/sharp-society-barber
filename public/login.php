@@ -33,12 +33,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             password_verify($password, $user['password'])
         ) {
             session_regenerate_id(true);
-
+            
             $_SESSION['user_id'] = (int) $user['id'];
             $_SESSION['user_name'] = $user['name'];
             $_SESSION['user_role'] = $user['role'];
 
-            header('Location: profile.php');
+            if ($user['role'] === 'admin') {
+                header('Location: admin/index.php');
+            } elseif ($user['role'] === 'employee') {
+                header('Location: employee/index.php');
+            } else {
+                header('Location: client.php');
+            }
+
             exit;
         } else {
             $error = 'Nieprawidłowy e-mail lub hasło.';
