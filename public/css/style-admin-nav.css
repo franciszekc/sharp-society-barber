@@ -1,0 +1,29 @@
+
+.admin-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.admin-nav a {
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.admin-nav a:hover {
+    text-decoration: underline;
+}
+
+.admin-nav .nav-disabled {
+    color: #999;
+    cursor: default;
+    white-space: nowrap;
+}
+
+.profile-link {
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}

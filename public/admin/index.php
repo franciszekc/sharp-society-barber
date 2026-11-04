@@ -49,16 +49,15 @@ $name = htmlspecialchars(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel administratora — Sharp Society Barber</title>
     <link rel="stylesheet" href="../css/style-admin.css">
+    <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
 
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
 
-        <nav>
-            <a href="index.php">Panel główny</a>
-            <a href="../profile.php">Mój profil</a>
-        </nav>
+        <?php require '../../includes/admin_nav.php'; ?>
+        <a class="profile-link" href="../profile.php">Mój profil</a>
 
         <form action="../logout.php" method="POST">
             <input
@@ -113,13 +112,13 @@ $name = htmlspecialchars(
                 <div class="module">
                     <h4>Kategorie</h4>
                     <p>Dodawanie, edycja i usuwanie kategorii usług.</p>
-                    <a href="categories.php">Zarządzaj kategoriami</a>
+                    <a href="categories.php">Zarządzaj</a>
                 </div>
 
                 <div class="module">
                     <h4>Usługi</h4>
                     <p>Zarządzanie ofertą, cenami i czasem usług.</p>
-                    <span>W przygotowaniu</span>
+                    <a href="services.php">Zarządzaj</a>
                 </div>
 
                 <div class="module">

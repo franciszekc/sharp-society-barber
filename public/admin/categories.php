@@ -180,15 +180,15 @@ $categories = $pdo->query(
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kategorie — Sharp Society Barber</title>
     <link rel="stylesheet" href="../css/style-categories.css">
+    <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
 
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
-        <nav>
-            <a href="../admin.php">Panel administratora</a>
-            <a href="categories.php">Kategorie</a>
-        </nav>
+        
+        <?php require '../../includes/admin_nav.php' ?>
+
     </header>
 
     <main class="container">
