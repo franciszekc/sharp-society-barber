@@ -142,7 +142,7 @@ $name = htmlspecialchars(
                 <div class="module">
                     <h4>Użytkownicy</h4>
                     <p>Przegląd kont użytkowników.</p>
-                    <span>W przygotowaniu</span>
+                    <a href="users.php">Zarządzaj</a>
                 </div>
             </div>
         </section>

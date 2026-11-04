@@ -5,5 +5,5 @@
     <span class="nav-disabled">Pracownicy</span>
     <span class="nav-disabled">Dostępność</span>
     <span class="nav-disabled">Rezerwacje</span>
-    <span class="nav-disabled">Użytkownicy</span>
+    <a href="users.php">Użytkownicy</a>
 </nav>

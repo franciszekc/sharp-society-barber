@@ -1,0 +1,164 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f4f4f4;
+    color: #222;
+    font-family: Arial, sans-serif;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 30px;
+    background: #222;
+    color: white;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.container {
+    max-width: 1450px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    margin-top: 25px;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 220px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font: inherit;
+}
+
+.search-form button,
+.actions button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 5px;
+    background: #222;
+    color: white;
+    cursor: pointer;
+    font: inherit;
+}
+
+.search-form a {
+    color: #444;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 13px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #f4f4f4;
+}
+
+.actions {
+    min-width: 260px;
+}
+
+.actions form {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 8px 4px 0;
+}
+
+.actions select {
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+}
+
+.actions button:hover,
+.search-form button:hover {
+    background: #444;
+}
+
+.actions .toggle-btn {
+    background: #555;
+}
+
+.active {
+    color: #15803d;
+    font-weight: bold;
+}
+
+.inactive {
+    color: #a00000;
+    font-weight: bold;
+}
+
+.disabled,
+.self-label {
+    color: #888;
+    font-size: 13px;
+}
+
+.message-error {
+    color: #a00000;
+}
+
+.message-success {
+    color: #15803d;
+}
+
+@media (max-width: 700px) {
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+}
