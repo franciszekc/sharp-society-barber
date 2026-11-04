@@ -157,11 +157,6 @@ function e(string $value): string
 </form>
 </div>
 
-<script>
-    const phoneInput = document.getElementById('phone');
-    phoneInput.addEventListener('input', () => {
-        phoneInput.value = phoneInput.value.replace(/[^0-9]/g, '').slice(0, 9);
-    });
-</script>
+<script src="js/script-profile.js" defer></script>
 </body>
 </html>
