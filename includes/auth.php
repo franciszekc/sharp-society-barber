@@ -1,3 +1,4 @@
+
 <?php
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -11,10 +12,10 @@ function isLoggedIn(): bool
         && (int) $_SESSION['user_id'] > 0;
 }
 
-function requireLogin(): void
+function requireLogin(string $loginPath = 'login.php'): void
 {
     if (!isLoggedIn()) {
-        header('Location: login.php');
+        header('Location: ' . $loginPath);
         exit;
     }
 }
@@ -47,9 +48,9 @@ function requireRole(string $role): void
     }
 }
 
-function refreshUserSession(PDO $pdo): void
+function refreshUserSession(PDO $pdo, string $loginPath = 'login.php'): void
 {
-    requireLogin();
+    requireLogin($loginPath);
 
     $stmt = $pdo->prepare(
         "SELECT id, name, role, active
@@ -65,7 +66,7 @@ function refreshUserSession(PDO $pdo): void
         $_SESSION = [];
         session_regenerate_id(true);
 
-        header('Location: login.php');
+        header('Location: ' . $loginPath);
         exit;
     }
 

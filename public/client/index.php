@@ -1,10 +1,10 @@
 <?php
 
-require_once '../config/database.php';
-require_once '../includes/auth.php';
+require_once '../../config/database.php';
+require_once '../../includes/auth.php';
 
-requireLogin();
-refreshUserSession($pdo);
+requireLogin('../login.php');
+refreshUserSession($pdo, '../login.php');
 requireRole('client');
 
 if (empty($_SESSION['csrf_token'])) {
@@ -24,7 +24,7 @@ $firstName = htmlspecialchars(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel klienta — Sharp Society Barber</title>
-    <link rel="stylesheet" href="css/style-client.css">
+    <link rel="stylesheet" href="../css/style-client.css">
 </head>
 <body>
 
@@ -37,14 +37,14 @@ $firstName = htmlspecialchars(
         <p>Wybierz, co chcesz zrobić.</p>
 
         <div class="menu">
-            <a href="profile.php">Mój profil</a>
+            <a href="../profile.php">Mój profil</a>
         </div>
 
         <h3>Moje rezerwacje</h3>
 
         <p>Moduł rezerwacji będzie dostępny w kolejnym etapie.</p>
 
-        <form action="logout.php" method="POST">
+        <form action="../logout.php" method="POST">
             <input
                 type="hidden"
                 name="csrf_token"

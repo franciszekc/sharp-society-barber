@@ -40,11 +40,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             
             if ($user['role'] === 'admin') {
-                header('Location: admin.php');
+                header('Location: admin/index.php');
             } elseif ($user['role'] === 'employee') {
-                header('Location: employee.php');
+                header('Location: employee/index.php');
             } else {
-                header('Location: client.php');
+                header('Location: client/index.php');
             }
 
             exit;
