@@ -1,0 +1,173 @@
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f4f4f4;
+    color: #222;
+    font-family: Arial, sans-serif;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px 30px;
+    background: #222;
+    color: white;
+}
+
+.topbar h1 {
+    margin: 0;
+    font-size: 22px;
+}
+
+.topbar nav {
+    display: flex;
+    gap: 20px;
+}
+
+.topbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
+    margin-top: 25px;
+    padding: 25px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+}
+
+.card h3 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font: inherit;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 12px 20px;
+    margin-top: 20px;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font: inherit;
+}
+
+button:hover {
+    background: #444;
+}
+
+.cancel-link {
+    display: inline-block;
+    margin-left: 15px;
+    color: #444;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 13px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #f4f4f4;
+}
+
+.actions {
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.actions form {
+    display: inline-block;
+    margin-left: 15px;
+}
+
+.actions .disabled {
+    margin-left: 15px;
+}
+
+.actions a {
+    color: #222;
+}
+
+.delete-btn {
+    margin: 0;
+    padding: 8px 12px;
+    background: #a00000;
+}
+
+.delete-btn:hover {
+    background: #7a0000;
+}
+
+.disabled {
+    color: #888;
+    font-size: 13px;
+}
+
+.message-error {
+    color: #a00000;
+}
+
+.message-success {
+    color: #15803d;
+}
+
+@media (max-width: 600px) {
+    .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .card {
+        padding: 15px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+}

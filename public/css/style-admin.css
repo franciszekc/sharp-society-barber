@@ -107,6 +107,20 @@ section {
     font-size: 14px;
 }
 
+.module a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #222;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.module a:hover {
+    background: #444;
+}
+
 @media (max-width: 600px) {
     .topbar {
         flex-direction: column;

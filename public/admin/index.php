@@ -112,8 +112,8 @@ $name = htmlspecialchars(
             <div class="modules">
                 <div class="module">
                     <h4>Kategorie</h4>
-                    <p>Dodawanie i edycja kategorii usług.</p>
-                    <span>W przygotowaniu</span>
+                    <p>Dodawanie, edycja i usuwanie kategorii usług.</p>
+                    <a href="categories.php">Zarządzaj kategoriami</a>
                 </div>
 
                 <div class="module">
