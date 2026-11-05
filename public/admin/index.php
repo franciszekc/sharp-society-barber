@@ -138,8 +138,9 @@ $name = htmlspecialchars(
                 <div class="module">
                     <h4>Rezerwacje</h4>
                     <p>Lista wizyt i zarządzanie statusami.</p>
-                    <span>W przygotowaniu</span>
+                    <a href="reservations.php">Zarządzaj</a>
                 </div>
+
 
                 <div class="module">
                     <h4>Użytkownicy</h4>

@@ -5,6 +5,6 @@
     <a href="employees.php">Pracownicy</a>
     <a href="employee_services.php">Usługi pracowników</a>
     <a href="availability.php">Dostępność</a>
-    <span class="nav-disabled">Rezerwacje</span>
+    <a href="reservations.php">Rezerwacje</a>
     <a href="users.php">Użytkownicy</a>
 </nav>
