@@ -1,0 +1,63 @@
+.employee-selector {
+    max-width: 500px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.service-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin: 0;
+    padding: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: normal;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.service-item:hover {
+    background: #f8f8f8;
+    border-color: #999;
+}
+
+.service-item input[type="checkbox"] {
+    width: 19px;
+    height: 19px;
+    margin: 2px 0 0;
+    flex-shrink: 0;
+    accent-color: #222;
+}
+
+.service-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.service-details strong {
+    font-size: 16px;
+}
+
+.service-meta {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.save-row {
+    margin-top: 10px;
+}
+
+@media (max-width: 700px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
