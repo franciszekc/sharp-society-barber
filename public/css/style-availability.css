@@ -1,0 +1,43 @@
+.employee-selector {
+    max-width: 500px;
+}
+
+.availability-form {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 20px;
+    max-width: 900px;
+}
+
+.availability-form input[type="time"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    font: inherit;
+}
+
+.availability-form select {
+    width: 100%;
+}
+
+.day-off {
+    color: #999;
+    font-style: italic;
+}
+
+.delete-btn {
+    background: #a00000;
+}
+
+.delete-btn:hover {
+    background: #800000;
+}
+
+@media (max-width: 700px) {
+    .availability-form {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+}

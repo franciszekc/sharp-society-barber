@@ -127,11 +127,13 @@ $name = htmlspecialchars(
                     <a href="employees.php">Zarządzaj</a>
                 </div>
 
+
                 <div class="module">
                     <h4>Dostępność</h4>
                     <p>Godziny i dni pracy barberów.</p>
-                    <span>W przygotowaniu</span>
+                    <a href="availability.php">Zarządzaj</a>
                 </div>
+
 
                 <div class="module">
                     <h4>Rezerwacje</h4>
