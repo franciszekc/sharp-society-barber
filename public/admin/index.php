@@ -124,7 +124,7 @@ $name = htmlspecialchars(
                 <div class="module">
                     <h4>Pracownicy</h4>
                     <p>Kontrola pracowników i przypisanych usług.</p>
-                    <span>W przygotowaniu</span>
+                    <a href="employees.php">Zarządzaj</a>
                 </div>
 
                 <div class="module">
