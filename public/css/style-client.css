@@ -53,3 +53,35 @@ h3 {
 form {
     margin-top: 30px;
 }
+
+input[type="date"] {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    font: inherit;
+}
+
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    padding: 0;
+    list-style: none;
+}
+
+.time-slots li {
+    padding: 12px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.date-error {
+    color: #a11919;
+    font-weight: bold;
+}
