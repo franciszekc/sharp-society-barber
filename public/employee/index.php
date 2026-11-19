@@ -8,6 +8,10 @@ requireLogin('../login.php');
 refreshUserSession($pdo, '../login.php');
 requireRole('employee');
 
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 date_default_timezone_set('Europe/Warsaw');
 
 function employeeEscape($value): string
@@ -260,7 +264,18 @@ function showReservations(array $reservations, array $statuses): void
             <a href="index.php">Panel główny</a>
             <a href="../profile.php">Mój profil</a>
             <a href="reservations.php">Rezerwacje</a>
-            <a href="../logout.php">Wyloguj</a>
+            
+            <form action="../logout.php" method="POST" class="logout-form">
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+
+                <button type="submit" class="logout-button">
+                    Wyloguj
+                </button>
+            </form>
+
         </nav>
     </header>
     <main class="container">

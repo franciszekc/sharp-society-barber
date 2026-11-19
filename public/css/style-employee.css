@@ -300,3 +300,20 @@ th {
     color: #992c2c;
     border: 1px solid #e6b1b1;
 }
+.logout-form {
+    display: inline;
+    margin: 0;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    padding: 0;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+.logout-button:hover {
+    text-decoration: underline;
+}

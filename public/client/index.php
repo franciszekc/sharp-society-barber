@@ -39,6 +39,7 @@ $firstName = htmlspecialchars(
         <div class="menu">
             <a href="../profile.php">Mój profil</a>
             <a href="services.php">Umów wizytę</a>
+            <a href="reservations.php">Moje rezerwacje</a>
         </div>
 
         <h3>Moje rezerwacje</h3>

@@ -10,6 +10,8 @@ requireRole('client');
 
 date_default_timezone_set('Europe/Warsaw');
 
+require_once '../../includes/booking-rules.php';
+
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -26,28 +28,6 @@ function bookingId($value): int
     ]) ?: 0;
 }
 
-function bookingMinutes(string $time): int
-{
-    [$hour, $minute] = array_map('intval', explode(':', $time));
-
-    return $hour * 60 + $minute;
-}
-
-function bookingClock(int $minutes): string
-{
-    return sprintf('%02d:%02d', intdiv($minutes, 60), $minutes % 60);
-}
-
-function bookingDate($value): ?DateTimeImmutable
-{
-    if (!is_string($value)) {
-        return null;
-    }
-
-    $date = DateTimeImmutable::createFromFormat('!Y-m-d', $value);
-
-    return $date && $date->format('Y-m-d') === $value ? $date : null;
-}
 
 $today = new DateTimeImmutable('today');
 $lastDate = $today->modify('+30 days');
@@ -136,6 +116,14 @@ if ($api !== '') {
 
         $duration = (int) $serviceById[$serviceId]['duration'];
 
+        if (bookingClientActiveCount($pdo, (int) getUserId()) >= 3) {
+
+            $send([
+                'error' => 'Masz już 3 aktywne przyszłe rezerwacje. Aby umówić kolejną wizytę, anuluj jedną z obecnych.'
+            ], 409);
+
+        }
+
         $stmt = $pdo->prepare(
             'SELECT day_of_week, start_time, end_time
              FROM employee_availability
@@ -144,33 +132,14 @@ if ($api !== '') {
 
         $stmt->execute([$employeeId]);
         $workingHours = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $stmt = $pdo->prepare(
-            "SELECT reservation_date, start_time, end_time
-             FROM reservations
-             WHERE employee_id = ?
-               AND reservation_date BETWEEN ? AND ?
-               AND status IN ('pending', 'confirmed', 'completed')"
-        );
-
-        $stmt->execute([
+        
+        $busyByDate = bookingBusyIntervals(
+            $pdo,
             $employeeId,
+            (int) getUserId(),
             $today->format('Y-m-d'),
             $lastDate->format('Y-m-d')
-        ]);
-
-        $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        $busyByDate = [];
-
-        foreach ($reservations as $reservation) {
-
-            $busyByDate[$reservation['reservation_date']][] = [
-                bookingMinutes($reservation['start_time']),
-                bookingMinutes($reservation['end_time'])
-            ];
-
-        }
+        );
 
         $now = new DateTimeImmutable();
 
@@ -219,7 +188,7 @@ if ($api !== '') {
 
                     foreach ($busyByDate[$dateString] ?? [] as [$busyStart, $busyEnd]) {
 
-                        if ($start < $busyEnd && $end > $busyStart) {
+                        if (bookingIntervalsOverlap($start, $end, $busyStart, $busyEnd)) {
                             $conflict = true;
                             break;
                         }
@@ -307,6 +276,24 @@ if ($api !== '') {
 
             $pdo->beginTransaction();
 
+            // Blokujemy konto klienta, aby równoczesne żądania
+            // nie mogły ominąć limitu ani kontroli konfliktów.
+
+            $stmt = $pdo->prepare(
+                "SELECT id
+                FROM users
+                WHERE id = ?
+                AND active = 1
+                AND role = 'client'
+                FOR UPDATE"
+            );
+
+            $stmt->execute([getUserId()]);
+
+            if (!$stmt->fetchColumn()) {
+                throw new RuntimeException('Konto klienta jest niedostępne.');
+            }
+
             // Blokujemy pracownika na czas zapisywania wizyty
 
             $stmt = $pdo->prepare(
@@ -369,31 +356,38 @@ if ($api !== '') {
                 );
             }
 
-            // Sprawdzamy kolizję z innymi wizytami
+            // Sprawdzamy konflikt z wizytami barbera
 
-            $stmt = $pdo->prepare(
-                "SELECT 1
-                 FROM reservations
-                 WHERE employee_id = ?
-                   AND reservation_date = ?
-                   AND status IN ('pending', 'confirmed', 'completed')
-                   AND start_time < ?
-                   AND end_time > ?
-                 LIMIT 1"
-            );
+            if (
+                bookingEmployeeHasConflict(
+                    $pdo,
+                    $employeeId,
+                    $date->format('Y-m-d'),
+                    $time . ':00',
+                    bookingClock($end) . ':00'
+                )
+            ) {
 
-            $stmt->execute([
-                $employeeId,
-                $date->format('Y-m-d'),
-                bookingClock($end) . ':00',
-                $time . ':00'
-            ]);
-
-            if ($stmt->fetchColumn()) {
                 throw new RuntimeException(
                     'Ten termin został właśnie zajęty. Wybierz inny.'
                 );
+
             }
+
+            // Sprawdzamy konflikt klienta i limit rezerwacji
+
+            $policyError = bookingClientPolicyError(
+                $pdo,
+                (int) getUserId(),
+                $date->format('Y-m-d'),
+                $time . ':00',
+                bookingClock($end) . ':00'
+            );
+
+            if ($policyError !== null) {
+                throw new RuntimeException($policyError);
+            }
+
 
             // Zapisujemy rezerwację
 
