@@ -1,3 +1,5 @@
+/* Formularz rejestracji i wskaźniki wymagań hasła. */
+
 body {
     font-family: Arial, 
     sans-serif; 
@@ -41,6 +43,7 @@ input:focus {
     outline-offset: 1px; 
 }
 
+/* Wskaźniki wymagań hasła. */
 .requirements { 
     padding-left: 23px; 
     margin: 10px 0 17px; 

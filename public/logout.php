@@ -1,8 +1,11 @@
 
 <?php
 
+// Wylogowanie przez POST z kontrolą tokenu CSRF.
+
 require_once '../includes/auth.php';
 
+// Wylogowanie tylko przez formularz POST.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Niedozwolona metoda żądania.');
@@ -17,6 +20,7 @@ if (
     exit('Nieprawidłowe żądanie.');
 }
 
+// Wyczyszczenie sesji i jej identyfikatora w przeglądarce.
 $_SESSION = [];
 
 if (ini_get('session.use_cookies')) {

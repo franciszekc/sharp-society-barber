@@ -1,5 +1,7 @@
 <?php
 
+// Tygodniowy grafik pracy i kontrola jego przedziałów.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -11,11 +13,13 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie danych grafiku przed wyświetleniem.
 function availabilityEscape($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Funkcja pomocnicza: availabilityId.
 function availabilityId($value): int
 {
     if (!is_string($value) && !is_int($value)) {
@@ -27,6 +31,7 @@ function availabilityId($value): int
     ]) ?: 0);
 }
 
+// Funkcja pomocnicza: availabilityTime.
 function availabilityTime($value): bool
 {
     return is_string($value)
@@ -43,10 +48,12 @@ $days = [
     7 => 'Niedziela'
 ];
 
+// Stan formularza tygodniowego grafiku.
 $errors = [];
 $success = $_SESSION['availability_success'] ?? '';
 unset($_SESSION['availability_success']);
 
+// Wybór pracownika do edycji grafiku.
 $employees = $pdo->query(
     'SELECT
         e.id,
@@ -359,6 +366,7 @@ if ($selectedId) {
 }
 
 ?>
+<!-- Widok strony: Tygodniowy grafik pracy i kontrola jego przedziałów -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -367,16 +375,18 @@ if ($selectedId) {
 
     <title>Dostępność — Sharp Society Barber</title>
 
-    <link rel="stylesheet" href="../css/style-employees.css">
-    <link rel="stylesheet" href="../css/style-availability.css">
+    <link rel="stylesheet" href="../css/style-admin-common.css">
+    <link rel="stylesheet" href="../css/style-admin-availability.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
 
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
-        <?php require '../../includes/admin_nav.php'; ?>
+        <?php require '../../includes/admin-nav.php'; ?>
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 

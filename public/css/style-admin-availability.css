@@ -1,3 +1,6 @@
+/* Formularz i akcje tygodniowego grafiku. */
+
+/* Wybór pracownika. */
 .employee-selector {
     max-width: 500px;
 }
@@ -35,6 +38,7 @@
     background: #800000;
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 700px) {
     .availability-form {
         grid-template-columns: 1fr;

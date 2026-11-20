@@ -1,5 +1,7 @@
 <?php
 
+// Przypisywanie usług do pracowników.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -11,15 +13,18 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie danych przypisania usług przed wyświetleniem.
 function employeeServicesEscape($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Komunikaty zapisu przypisań.
 $errors = [];
 $success = $_SESSION['employee_services_success'] ?? '';
 unset($_SESSION['employee_services_success']);
 
+// Lista pracowników dostępnych do przypisania.
 $employees = $pdo->query(
     'SELECT
         e.id,
@@ -32,6 +37,7 @@ $employees = $pdo->query(
      ORDER BY u.surname, u.name'
 )->fetchAll(PDO::FETCH_ASSOC);
 
+// Lista usług dostępnych do przypisania.
 $services = $pdo->query(
     'SELECT
         s.id,
@@ -71,6 +77,7 @@ if ($selectedId && !isset($employeeIds[$selectedId])) {
     $selectedId = null;
 }
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $token = $_POST['csrf_token'] ?? '';
@@ -136,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['employee_services_success'] =
                 'Zapisano usługi przypisane do pracownika.';
 
-            header('Location: employee_services.php?employee_id=' . $selectedId);
+            header('Location: employee-services.php?employee_id=' . $selectedId);
             exit;
 
         } catch (Throwable $exception) {
@@ -177,6 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($errors)) {
 }
 
 ?>
+<!-- Widok strony: Przypisywanie usług do pracowników -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -185,16 +193,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($errors)) {
 
     <title>Usługi pracowników — Sharp Society Barber</title>
 
-    <link rel="stylesheet" href="../css/style-employees.css">
-    <link rel="stylesheet" href="../css/style-employee-services.css">
+    <link rel="stylesheet" href="../css/style-admin-common.css">
+    <link rel="stylesheet" href="../css/style-admin-employee-services.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
 
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
-        <?php require '../../includes/admin_nav.php'; ?>
+        <?php require '../../includes/admin-nav.php'; ?>
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 

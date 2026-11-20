@@ -1,5 +1,7 @@
 <?php
 
+// Podsumowanie i nawigacja panelu administratora.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -11,6 +13,7 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Liczniki użytkowników, usług i rezerwacji.
 $stats = [
     'clients' => (int) $pdo->query(
         "SELECT COUNT(*) FROM users WHERE role = 'client'"
@@ -42,13 +45,14 @@ $name = htmlspecialchars(
 );
 
 ?>
+<!-- Widok strony: Podsumowanie i nawigacja panelu administratora -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel administratora — Sharp Society Barber</title>
-    <link rel="stylesheet" href="../css/style-admin.css">
+    <link rel="stylesheet" href="../css/style-admin-index.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
@@ -56,18 +60,11 @@ $name = htmlspecialchars(
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
 
-        <?php require '../../includes/admin_nav.php'; ?>
-        <a class="profile-link" href="../profile.php">Mój profil</a>
+        <?php require '../../includes/admin-nav.php'; ?>
 
-        <form action="../logout.php" method="POST">
-            <input
-                type="hidden"
-                name="csrf_token"
-                value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>"
-            >
-            <button type="submit">Wyloguj</button>
-        </form>
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 

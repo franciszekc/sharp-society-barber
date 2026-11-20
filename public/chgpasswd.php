@@ -1,11 +1,14 @@
 <?php
 
+// Zmiana hasła z walidacją i weryfikacją obecnego hasła.
+
 require_once '../config/database.php';
 require_once '../includes/auth.php';
 
 requireLogin();
 refreshUserSession($pdo);
 
+// Komunikaty zmiany hasła.
 $errors = [];
 $success = '';
 $userId = getUserId();
@@ -29,6 +32,7 @@ if($user === false) {
 
 $currentPasswordHash = $user['password'];
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (
@@ -135,15 +139,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<!-- Widok strony: Zmiana hasła z walidacją i weryfikacją obecnego hasła -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zmiana Hasła</title>
-    <link rel="stylesheet" href="css/style-chgpasswd.css">
+    <link rel="stylesheet" href="css/style-public-chgpasswd.css">
 </head>
 <body>
+    
+    <!-- Zawartość główna panelu. -->
     
     <main class="container">
 
@@ -217,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
     </main>
 
-<script src="js/script-chgpasswd.js" defer></script>
+<script src="js/script-public-chgpasswd.js" defer></script>
 
 </body>
 </html>

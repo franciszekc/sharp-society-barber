@@ -1,3 +1,4 @@
+/* Formularze i lista kategorii administratora. */
 
 * {
     box-sizing: border-box;
@@ -12,8 +13,8 @@ body {
 
 .topbar {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px 30px;
@@ -26,8 +27,18 @@ body {
     font-size: 22px;
 }
 
+.topbar nav {
+    display: flex;
+    gap: 20px;
+}
+
+.topbar a {
+    color: white;
+    text-decoration: none;
+}
+
 .container {
-    max-width: 1450px;
+    max-width: 1200px;
     margin: 30px auto;
     padding: 0 20px;
 }
@@ -44,37 +55,48 @@ body {
     margin-top: 0;
 }
 
-.search-form {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
-.search-form input {
-    flex: 1;
-    min-width: 220px;
+input[type="text"],
+textarea {
+    width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font: inherit;
 }
 
-.search-form button,
-.actions button {
-    padding: 10px 14px;
-    border: none;
-    border-radius: 5px;
+textarea {
+    resize: vertical;
+}
+
+button {
+    padding: 12px 20px;
+    margin-top: 20px;
     background: #222;
     color: white;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
     font: inherit;
 }
 
-.search-form a {
+button:hover {
+    background: #444;
+}
+
+.cancel-link {
+    display: inline-block;
+    margin-left: 15px;
     color: #444;
 }
 
+/* Tabele danych. */
 .table-wrapper {
     overflow-x: auto;
 }
@@ -88,7 +110,6 @@ th,
 td {
     padding: 13px;
     text-align: left;
-    vertical-align: middle;
     border-bottom: 1px solid #ddd;
 }
 
@@ -97,44 +118,34 @@ th {
 }
 
 .actions {
-    min-width: 260px;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 .actions form {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 4px 8px 4px 0;
+    display: inline-block;
+    margin-left: 15px;
 }
 
-.actions select {
-    padding: 9px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: white;
+.actions .disabled {
+    margin-left: 15px;
 }
 
-.actions button:hover,
-.search-form button:hover {
-    background: #444;
+.actions a {
+    color: #222;
 }
 
-.actions .toggle-btn {
-    background: #555;
+.delete-btn {
+    margin: 0;
+    padding: 8px 12px;
+    background: #a00000;
 }
 
-.active {
-    color: #15803d;
-    font-weight: bold;
+.delete-btn:hover {
+    background: #7a0000;
 }
 
-.inactive {
-    color: #a00000;
-    font-weight: bold;
-}
-
-.disabled,
-.self-label {
+.disabled {
     color: #888;
     font-size: 13px;
 }
@@ -147,7 +158,8 @@ th {
     color: #15803d;
 }
 
-@media (max-width: 700px) {
+/* Układ dla mniejszych ekranów. */
+@media (max-width: 600px) {
     .topbar {
         align-items: flex-start;
         flex-direction: column;

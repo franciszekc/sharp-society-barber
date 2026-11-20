@@ -1,6 +1,8 @@
 
 <?php
 
+// Lista kont, filtrowanie i zmiany uprawnień użytkowników.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -12,11 +14,13 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function e($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Komunikaty i filtry listy użytkowników.
 $errors = [];
 $success = $_SESSION['users_success'] ?? '';
 
@@ -38,6 +42,7 @@ if ($returnSearch !== '') {
 
 unset($_SESSION['users_success']);
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $token = $_POST['csrf_token'] ?? '';
@@ -153,21 +158,24 @@ $stmt->execute($params);
 $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<!-- Widok strony: Lista kont, filtrowanie i zmiany uprawnień użytkowników -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Użytkownicy — Sharp Society Barber</title>
-    <link rel="stylesheet" href="../css/style-users.css">
+    <link rel="stylesheet" href="../css/style-admin-users.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
 
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
-        <?php require '../../includes/admin_nav.php'; ?>
+        <?php require '../../includes/admin-nav.php'; ?>
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 
@@ -354,7 +362,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     </main>
 
-<script src="../js/script-users.js" defer></script>
+<script src="../js/script-admin-users.js" defer></script>
 
 </body>
 </html>

@@ -1,22 +1,26 @@
 
 <?php
 
+// Zarządzanie kategoriami usług.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
-requireLogin();
-refreshUserSession($pdo);
+requireLogin('../login.php');
+refreshUserSession($pdo, '../login.php');
 requireRole('admin');
 
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function e($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Komunikaty formularza i dane edytowanej kategorii.
 $errors = [];
 $success = $_SESSION['category_success'] ?? '';
 unset($_SESSION['category_success']);
@@ -25,6 +29,7 @@ $editCategory = null;
 $name = '';
 $description = '';
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (
@@ -160,6 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' && isset($_GET['edit'])) {
     }
 }
 
+// Lista kategorii do tabeli administratora.
 $categories = $pdo->query(
     'SELECT
         c.id,
@@ -173,13 +179,14 @@ $categories = $pdo->query(
 )->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<!-- Widok strony: Zarządzanie kategoriami usług -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kategorie — Sharp Society Barber</title>
-    <link rel="stylesheet" href="../css/style-categories.css">
+    <link rel="stylesheet" href="../css/style-admin-categories.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
@@ -187,9 +194,11 @@ $categories = $pdo->query(
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
         
-        <?php require '../../includes/admin_nav.php' ?>
+        <?php require '../../includes/admin-nav.php' ?>
 
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 

@@ -1,3 +1,5 @@
+// Wybór usługi i barbera, kalendarz AJAX i zapis rezerwacji.
+
 
 const data = window.bookingData;
 
@@ -34,10 +36,12 @@ const allowed = new Set(
     data.assignments.map(item => `${item.service_id}:${item.employee_id}`)
 );
 
+// Sprawdzenie dostępnego połączenia usługi i pracownika.
 function matches(service, employee) {
     return allowed.has(`${service}:${employee}`);
 }
 
+// Aktualizacja opcji pola wyboru.
 function fillSelect(select, items, selected, placeholder, getLabel) {
 
     select.replaceChildren(new Option(placeholder, ''));
@@ -50,6 +54,7 @@ function fillSelect(select, items, selected, placeholder, getLabel) {
 
 }
 
+// Filtrowanie usług i barberów w obu kierunkach.
 function renderSelects() {
 
     const availableServices = data.services.filter(service =>
@@ -78,6 +83,7 @@ function renderSelects() {
 
 }
 
+// Formatowanie daty dla użytkownika.
 function formatDate(date) {
 
     return new Intl.DateTimeFormat('pl-PL', {
@@ -88,6 +94,7 @@ function formatDate(date) {
 
 }
 
+// Komunikaty stanu formularza.
 function setMessage(text, type = '') {
 
     message.textContent = text;
@@ -95,6 +102,7 @@ function setMessage(text, type = '') {
 
 }
 
+// Podsumowanie wybranej rezerwacji.
 function updateSummary() {
 
     const service = serviceMap.get(serviceId);
@@ -134,6 +142,7 @@ function updateSummary() {
 
 }
 
+// Renderowanie dni i dostępnych godzin.
 function renderCalendar() {
 
     calendar.replaceChildren();
@@ -262,6 +271,7 @@ function renderCalendar() {
 
 }
 
+// Pobieranie terminów z serwera i obsługa odpowiedzi.
 async function loadCalendar() {
 
     const currentRequest = ++requestNumber;
@@ -333,6 +343,7 @@ async function loadCalendar() {
 
 }
 
+// Zmiana usługi i ponowne pobranie terminów.
 serviceSelect.addEventListener('change', () => {
 
     serviceId = serviceSelect.value;
@@ -351,6 +362,7 @@ serviceSelect.addEventListener('change', () => {
 
 });
 
+// Zmiana barbera i ponowne pobranie terminów.
 employeeSelect.addEventListener('change', () => {
 
     employeeId = employeeSelect.value;
@@ -369,6 +381,7 @@ employeeSelect.addEventListener('change', () => {
 
 });
 
+// Nawigacja do poprzednich dni.
 prevButton.addEventListener('click', () => {
 
     if (centerIndex > 0) {
@@ -380,6 +393,7 @@ prevButton.addEventListener('click', () => {
 
 });
 
+// Nawigacja do kolejnych dni.
 nextButton.addEventListener('click', () => {
 
     if (centerIndex < days.length - 1) {
@@ -391,6 +405,7 @@ nextButton.addEventListener('click', () => {
 
 });
 
+// Wysłanie formularza rezerwacji do API.
 bookButton.addEventListener('click', async () => {
 
     if (

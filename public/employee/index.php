@@ -1,6 +1,8 @@
 
 <?php
 
+// Podsumowanie wizyt przypisanego do konta pracownika.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -14,11 +16,13 @@ if (empty($_SESSION['csrf_token'])) {
 
 date_default_timezone_set('Europe/Warsaw');
 
+// Kodowanie danych pracownika przed wyświetleniem.
 function employeeEscape($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Profil pracownika powiązany z aktualnym kontem.
 $stmt = $pdo->prepare(
     'SELECT id, active
      FROM employees
@@ -35,6 +39,7 @@ $employeeActive = $employee && (int) $employee['active'] === 1;
 $today = date('Y-m-d');
 $now = date('H:i:s');
 
+// Zbiory wizyt dzisiejszych, przyszłych i historycznych.
 $todayReservations = [];
 $upcomingReservations = [];
 $historyReservations = [];
@@ -192,6 +197,7 @@ $statuses = [
     'cancelled' => 'Anulowana'
 ];
 
+// Renderowanie tabeli wizyt w panelu pracownika.
 function showReservations(array $reservations, array $statuses): void
 {
     if (empty($reservations)) {
@@ -248,13 +254,14 @@ function showReservations(array $reservations, array $statuses): void
 }
 
 ?>
+<!-- Widok strony: Podsumowanie wizyt przypisanego do konta pracownika -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel pracownika — Sharp Society Barber</title>
-    <link rel="stylesheet" href="../css/style-employee.css">
+    <link rel="stylesheet" href="../css/style-employee-common.css">
 </head>
 <body>
     <header class="topbar">
@@ -278,6 +285,7 @@ function showReservations(array $reservations, array $statuses): void
 
         </nav>
     </header>
+    <!-- Zawartość główna panelu. -->
     <main class="container">
         <h2>Panel pracownika</h2>
         <p class="welcome">

@@ -1,3 +1,5 @@
+/* Formularz zmiany hasła i komunikaty walidacji. */
+
 body {
     font-family: Arial, sans-serif;
     background: #f4f4f4;
@@ -77,6 +79,7 @@ button:hover,
     margin-top: 20px;
 }
 
+/* Wskaźniki wymagań hasła. */
 .requirements {
     padding-left: 23px;
     margin: 10px 0 17px;

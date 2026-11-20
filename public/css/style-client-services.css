@@ -1,3 +1,4 @@
+/* Formularz rezerwacji, kalendarz i podsumowanie. */
 
 :root {
     font-family: Arial, sans-serif;
@@ -106,6 +107,7 @@ select {
     margin-bottom: 18px;
 }
 
+/* Nawigacja kalendarza. */
 .booking-navigation {
     display: flex;
     gap: 7px;
@@ -340,6 +342,7 @@ select {
 
 /* Telefony */
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 600px) {
 
     .booking-page {

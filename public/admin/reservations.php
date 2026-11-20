@@ -1,5 +1,7 @@
 <?php
 
+// Przegląd, filtrowanie i zmiana statusów rezerwacji przez administratora.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -11,11 +13,13 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie danych rezerwacji przed wyświetleniem.
 function reservationEscape($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Walidacja identyfikatora rezerwacji.
 function reservationId($value): int
 {
     if (!is_string($value) && !is_int($value)) {
@@ -27,6 +31,7 @@ function reservationId($value): int
     ]) ?: 0);
 }
 
+// Sprawdzenie poprawności daty rezerwacji.
 function reservationDate($value): bool
 {
     if (!is_string($value)) {
@@ -38,6 +43,7 @@ function reservationDate($value): bool
     return $date !== false && $date->format('Y-m-d') === $value;
 }
 
+// Etykiety statusów i dozwolone przejścia.
 $statuses = [
     'pending' => 'Oczekująca',
     'confirmed' => 'Potwierdzona',
@@ -52,10 +58,12 @@ $transitions = [
     'cancelled' => []
 ];
 
+// Komunikaty oraz parametry filtrowania.
 $errors = [];
 $success = $_SESSION['reservations_success'] ?? '';
 unset($_SESSION['reservations_success']);
 
+// Lista pracowników do filtrowania rezerwacji.
 $employees = $pdo->query(
     'SELECT
         e.id,
@@ -324,6 +332,7 @@ $stmt->execute($params);
 $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<!-- Widok strony: Przegląd, filtrowanie i zmiana statusów rezerwacji przez administratora -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -332,16 +341,18 @@ $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <title>Rezerwacje — Sharp Society Barber</title>
 
-    <link rel="stylesheet" href="../css/style-employees.css">
-    <link rel="stylesheet" href="../css/style-reservations.css">
+    <link rel="stylesheet" href="../css/style-admin-common.css">
+    <link rel="stylesheet" href="../css/style-admin-reservations.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
 
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
-        <?php require '../../includes/admin_nav.php'; ?>
+        <?php require '../../includes/admin-nav.php'; ?>
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 

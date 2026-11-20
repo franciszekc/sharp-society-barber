@@ -1,6 +1,9 @@
 
 <?php
 
+// Wspólne reguły terminów, kolizji i limitu rezerwacji.
+
+// Konwersja godziny na liczbę minut od północy.
 function bookingMinutes(string $time): int
 {
     [$hour, $minute] = array_map('intval', explode(':', $time));
@@ -8,6 +11,7 @@ function bookingMinutes(string $time): int
     return $hour * 60 + $minute;
 }
 
+// Konwersja liczby minut na zapis godziny.
 function bookingClock(int $minutes): string
 {
     return sprintf(
@@ -17,6 +21,7 @@ function bookingClock(int $minutes): string
     );
 }
 
+// Walidacja daty w formacie YYYY-MM-DD.
 function bookingDate($value): ?DateTimeImmutable
 {
     if (!is_string($value)) {
@@ -30,6 +35,7 @@ function bookingDate($value): ?DateTimeImmutable
         : null;
 }
 
+// Wykrywanie nakładania się dwóch przedziałów czasu.
 function bookingIntervalsOverlap(
     int $start,
     int $end,
@@ -41,6 +47,7 @@ function bookingIntervalsOverlap(
 
 // Zajęte godziny barbera i zalogowanego klienta
 
+// Pobieranie zajętych przedziałów pracownika i klienta.
 function bookingBusyIntervals(
     PDO $pdo,
     int $employeeId,
@@ -89,6 +96,7 @@ function bookingBusyIntervals(
 
 // Konflikt z rezerwacją pracownika
 
+// Sprawdzenie kolizji z aktywnymi wizytami pracownika.
 function bookingEmployeeHasConflict(
     PDO $pdo,
     int $employeeId,
@@ -120,6 +128,7 @@ function bookingEmployeeHasConflict(
 
 // Konflikt z inną rezerwacją klienta
 
+// Sprawdzenie kolizji z aktywnymi wizytami klienta.
 function bookingClientHasConflict(
     PDO $pdo,
     int $userId,
@@ -151,6 +160,7 @@ function bookingClientHasConflict(
 
 // Liczba aktywnych przyszłych rezerwacji klienta
 
+// Zliczenie przyszłych aktywnych rezerwacji klienta.
 function bookingClientActiveCount(
     PDO $pdo,
     int $userId
@@ -190,6 +200,7 @@ function bookingClientActiveCount(
 
 // Sprawdzenie ograniczeń klienta przed zapisem
 
+// Sprawdzenie limitu i kolizji przed zapisaniem wizyty.
 function bookingClientPolicyError(
     PDO $pdo,
     int $userId,

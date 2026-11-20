@@ -1,5 +1,7 @@
 <?php
 
+// Połączenie PDO z bazą danych i konfiguracja obsługi błędów.
+
 $host = 'localhost';
 $dbname = 'sharp_society_barber';
 $username = 'root';

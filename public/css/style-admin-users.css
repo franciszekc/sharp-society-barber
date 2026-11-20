@@ -1,3 +1,5 @@
+/* Filtrowanie i tabela użytkowników. */
+
 * {
     box-sizing: border-box;
 }
@@ -11,8 +13,8 @@ body {
 
 .topbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px 30px;
@@ -43,29 +45,25 @@ body {
     margin-top: 0;
 }
 
-label {
-    display: block;
-    margin: 15px 0 5px;
-    font-weight: bold;
+.search-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
-select,
-textarea {
-    width: 100%;
+.search-form input {
+    flex: 1;
+    min-width: 220px;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background: white;
     font: inherit;
 }
 
-textarea {
-    resize: vertical;
-}
-
-button {
-    padding: 12px 20px;
-    margin-top: 20px;
+.search-form button,
+.actions button {
+    padding: 10px 14px;
     border: none;
     border-radius: 5px;
     background: #222;
@@ -74,21 +72,11 @@ button {
     font: inherit;
 }
 
-button:hover {
-    background: #444;
-}
-
-.cancel-link {
-    display: inline-block;
-    margin-left: 15px;
+.search-form a {
     color: #444;
 }
 
-.hint {
-    color: #777;
-    font-size: 14px;
-}
-
+/* Tabele danych. */
 .table-wrapper {
     overflow-x: auto;
 }
@@ -111,25 +99,29 @@ th {
 }
 
 .actions {
-    white-space: nowrap;
-}
-
-.actions a {
-    color: #222;
+    min-width: 260px;
 }
 
 .actions form {
-    display: inline-block;
-    margin-left: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 8px 4px 0;
 }
 
-.actions button {
-    margin: 0;
-    padding: 8px 12px;
-    font-size: 13px;
+.actions select {
+    padding: 9px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
 }
 
-.toggle-btn {
+.actions button:hover,
+.search-form button:hover {
+    background: #444;
+}
+
+.actions .toggle-btn {
     background: #555;
 }
 
@@ -143,6 +135,12 @@ th {
     font-weight: bold;
 }
 
+.disabled,
+.self-label {
+    color: #888;
+    font-size: 13px;
+}
+
 .message-error {
     color: #a00000;
 }
@@ -151,13 +149,19 @@ th {
     color: #15803d;
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 700px) {
     .topbar {
-        flex-direction: column;
         align-items: flex-start;
+        flex-direction: column;
     }
 
     .card {
         padding: 15px;
+    }
+
+    th,
+    td {
+        padding: 10px;
     }
 }

@@ -1,3 +1,4 @@
+/* Karty rezerwacji klienta, statusy i anulowanie. */
 
 * {
     box-sizing: border-box;
@@ -77,6 +78,7 @@ nav a:hover {
     background: #594337;
 }
 
+/* Liczniki i statystyki. */
 .stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -148,6 +150,7 @@ nav a:hover {
     white-space: nowrap;
 }
 
+/* Statusy rezerwacji. */
 .status-pending {
     background: #fff1c2;
     color: #8a6500;
@@ -180,6 +183,7 @@ nav a:hover {
     color: #777;
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 750px) {
     .header-content,
     .page-heading {
@@ -235,6 +239,7 @@ nav a:hover {
     color: #992c2c;
     border: 1px solid #e6b1b1;
 }
+/* Wylogowanie przez formularz POST. */
 .logout-form {
     display: inline;
     margin: 0;

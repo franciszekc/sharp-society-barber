@@ -1,0 +1,129 @@
+/* Filtry, akcje i komunikaty listy rezerwacji pracownika. */
+
+/* Filtrowanie rezerwacji. */
+.reservation-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 180px;
+}
+
+.filter-field label {
+    font-weight: 600;
+}
+
+.filter-field input,
+.filter-field select {
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 15px;
+    background: white;
+}
+
+.filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filter-buttons button {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #34261f;
+    color: white;
+    cursor: pointer;
+}
+
+.filter-buttons button:hover {
+    background: #594337;
+}
+
+.clear-button {
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #34261f;
+    text-decoration: none;
+}
+
+.clear-button:hover {
+    background: #eee;
+}
+
+/* Układ dla mniejszych ekranów. */
+@media (max-width: 700px) {
+    .reservation-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-buttons {
+        flex-wrap: wrap;
+    }
+}
+
+/* Akcje dostępne dla rezerwacji. */
+.reservation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.action-form {
+    margin: 0;
+}
+
+.action-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.action-confirmed {
+    background: #2563a6;
+}
+
+.action-completed {
+    background: #32834b;
+}
+
+.action-cancelled {
+    background: #b63e3e;
+}
+
+.action-button:hover {
+    opacity: 0.85;
+}
+
+.employee-message {
+    padding: 14px 18px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.message-success {
+    background: #e0f3e5;
+    color: #206737;
+    border: 1px solid #a6d8b3;
+}
+
+.message-error {
+    background: #fbe4e4;
+    color: #992c2c;
+    border: 1px solid #e6b1b1;
+}

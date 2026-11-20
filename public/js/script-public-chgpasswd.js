@@ -1,10 +1,7 @@
-const phoneInput = document.getElementById('phone');
-phoneInput.addEventListener('input', () => {
-    phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 9);
-});
+// Walidacja hasła i potwierdzenia w formularzu zmiany hasła.
 
-const passwordInput = document.getElementById('password');
-const confirmInput = document.getElementById('password_confirm');
+const passwordInput = document.getElementById('new_password');
+const confirmInput = document.getElementById('confirm_password');
 const matchIndicator = document.getElementById('password-match');
 const rules = {
     length: value => [...value].length >= 8,
@@ -14,23 +11,40 @@ const rules = {
     special: value => /[^\p{L}\p{N}\s]/u.test(value)
 };
 
+// Weryfikacja wymagań hasła.
 function updatePasswordRequirements() {
+    
     const value = passwordInput.value;
+    
     document.querySelectorAll('#password-requirements li').forEach(item => {
-        item.classList.toggle('met', rules[item.dataset.rule](value));
+
+        const ruleName = item.dataset.rule;
+        const isValid = rules[ruleName](value);
+
+        item.classList.toggle('met', isValid);
     });
 }
 
+// Porównanie hasła z potwierdzeniem.
 function updatePasswordMatch() {
-    const matches = confirmInput.value !== '' && passwordInput.value === confirmInput.value;
+    
+    const matches = 
+        confirmInput.value !== '' &&
+        passwordInput.value === confirmInput.value;
+
     matchIndicator.classList.toggle('met', matches);
-    matchIndicator.textContent = matches ? '● Hasła są identyczne' : '● Hasła muszą być identyczne';
+
+    matchIndicator.textContent = matches
+        ? '● Hasła są identyczne'
+        : '● Hasła muszą być identyczne';
 }
 
 passwordInput.addEventListener('input', () => {
     updatePasswordRequirements();
     updatePasswordMatch();
 });
+
 confirmInput.addEventListener('input', updatePasswordMatch);
+
 updatePasswordRequirements();
 updatePasswordMatch();

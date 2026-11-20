@@ -1,6 +1,8 @@
 
 <?php
 
+// Uwierzytelnianie użytkownika i przekierowanie do panelu roli.
+
 require_once '../config/database.php';
 
 session_start();
@@ -8,6 +10,7 @@ session_start();
 $error = '';
 $email = '';
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -54,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function e(string $value): string
 {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -61,13 +65,14 @@ function e(string $value): string
 
 ?>
 
+<!-- Widok strony: Uwierzytelnianie użytkownika i przekierowanie do panelu roli -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logowanie — Sharp Society Barber</title>
-    <link rel="stylesheet" href="css/style-login.css">
+    <link rel="stylesheet" href="css/style-public-login.css">
 </head>
 <body>
 

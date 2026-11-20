@@ -53,7 +53,7 @@ pracownika oraz dostępnego terminu wizyty.
 
 ## Uruchomienie
 
-Instrukcja uruchomienia zostanie uzupełniona w trakcie realizacji projektu.
+Instrukcja lokalnego uruchomienia znajduje się poniżej.
 
 ## Dane testowe
 
@@ -85,6 +85,10 @@ Zrealizowano następujące funkcjonalności:
 
 ## Funkcje dodatkowe
 
+- dynamiczny kalendarz terminów (AJAX)
+- blokowanie nakładających się wizyt barbera i klienta
+- limit trzech aktywnych przyszłych rezerwacji klienta
+- transakcyjny zapis wizyty z blokadą konta i pracownika
 
 Do uruchomienia projektu wymagane są XAMPP (Apache, MySQL) oraz przeglądarka internetowa.
 
@@ -102,3 +106,18 @@ Do uruchomienia projektu wymagane są XAMPP (Apache, MySQL) oraz przeglądarka i
 Projekt wykorzystuje PHP, PDO i bazę danych MySQL.
 
 Dostęp do panelu administratora jest ograniczony do użytkowników z rolą `admin`. Operacje modyfikujące dane są wykonywane z wykorzystaniem zapytań przygotowanych oraz walidacji danych wejściowych.
+## Organizacja kodu
+
+- `config/database.php` — połączenie PDO z MySQL.
+- `includes/auth.php` — sesja, logowanie i role.
+- `includes/booking-rules.php` — wspólne zasady terminów, konfliktów i limitu.
+- `includes/admin-nav.php` — wspólna nawigacja i wylogowanie administratora.
+- `includes/profile-functions.php` — operacje na profilu.
+- `public/admin/` — strony administratora.
+- `public/client/` — rezerwowanie i anulowanie wizyt klienta.
+- `public/employee/` — panel pracownika i statusy wizyt.
+- `public/css/` — `style-<moduł>-<strona>.css`, a `*-common.css` dla wspólnych stylów.
+- `public/js/` — `script-<moduł>-<strona>.js`.
+- `database/` — schemat, ERD i dane demonstracyjne.
+
+Szczegółowy wykaz zmian nazw i usuniętych plików znajduje się w `docs/refactor-notes.md`.

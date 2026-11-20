@@ -1,5 +1,7 @@
 <?php
 
+// Strona główna panelu klienta.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -11,6 +13,7 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Imię zalogowanego klienta do nagłówka panelu.
 $firstName = htmlspecialchars(
     $_SESSION['user_name'],
     ENT_QUOTES,
@@ -18,15 +21,18 @@ $firstName = htmlspecialchars(
 );
 
 ?>
+<!-- Widok strony: Strona główna panelu klienta -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel klienta — Sharp Society Barber</title>
-    <link rel="stylesheet" href="../css/style-client.css">
+    <link rel="stylesheet" href="../css/style-client-index.css">
 </head>
 <body>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 
@@ -41,10 +47,6 @@ $firstName = htmlspecialchars(
             <a href="services.php">Umów wizytę</a>
             <a href="reservations.php">Moje rezerwacje</a>
         </div>
-
-        <h3>Moje rezerwacje</h3>
-
-        <p>Moduł rezerwacji będzie dostępny w kolejnym etapie.</p>
 
         <form action="../logout.php" method="POST">
             <input

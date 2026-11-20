@@ -1,7 +1,9 @@
 <?php
 
+// Wyświetlanie i aktualizacja danych zalogowanego użytkownika.
+
 require_once '../config/database.php';
-require_once '../includes/profile_functions.php';
+require_once '../includes/profile-functions.php';
 
 require_once '../includes/auth.php';
 
@@ -21,6 +23,7 @@ if ($user === false) {
     exit('Nie znaleziono użytkownika.');
 }
 
+// Komunikaty edycji profilu.
 $errors = [];
 $success = '';
 
@@ -29,6 +32,7 @@ $surname = $user['surname'];
 $email = $user['email'];
 $phone = $user['phone'] ?? '';
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (
     !isset($_POST['csrf_token']) ||
@@ -64,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function e(string $value): string
 {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
@@ -71,13 +76,14 @@ function e(string $value): string
 
 ?>
 
+<!-- Widok strony: Wyświetlanie i aktualizacja danych zalogowanego użytkownika -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mój profil — Sharp Society Barber</title>
-    <link rel="stylesheet" href="css/style-profile.css">
+    <link rel="stylesheet" href="css/style-public-profile.css">
 </head>
 <body>
 
@@ -157,6 +163,6 @@ function e(string $value): string
 </form>
 </div>
 
-<script src="js/script-profile.js" defer></script>
+<script src="js/script-public-profile.js" defer></script>
 </body>
 </html>

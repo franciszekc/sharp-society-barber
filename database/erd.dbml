@@ -1,3 +1,6 @@
+// Model danych: użytkownicy, usługi, pracownicy i rezerwacje.
+
+// Konta użytkowników.
 Table users {
   id int [pk, increment]
   name varchar(50) [not null]
@@ -16,6 +19,7 @@ Table service_categories {
   description text
 }
 
+// Katalog usług.
 Table services {
   id int [pk, increment]
   category_id int [not null]
@@ -29,6 +33,7 @@ Table services {
 Ref: services.category_id > service_categories.id
 
 
+// Profile pracowników.
 Table employees {
   id int [pk, increment]
   user_id int [not null, unique]
@@ -52,6 +57,7 @@ Ref: employee_services.employee_id > employees.id
 Ref: employee_services.service_id > services.id
 
 
+// Tygodniowy grafik.
 Table employee_availability {
   id int [pk, increment]
   employee_id int [not null]
@@ -63,6 +69,7 @@ Table employee_availability {
 Ref: employee_availability.employee_id > employees.id
 
 
+// Terminy i statusy wizyt.
 Table reservations {
   id int [pk, increment]
   user_id int [not null]

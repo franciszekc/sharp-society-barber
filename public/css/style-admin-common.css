@@ -1,3 +1,4 @@
+/* Wspólne formularze, tabele i karty podstron administratora. */
 
 * {
     box-sizing: border-box;
@@ -26,18 +27,8 @@ body {
     font-size: 22px;
 }
 
-.topbar nav {
-    display: flex;
-    gap: 20px;
-}
-
-.topbar a {
-    color: white;
-    text-decoration: none;
-}
-
 .container {
-    max-width: 1200px;
+    max-width: 1450px;
     margin: 30px auto;
     padding: 0 20px;
 }
@@ -56,17 +47,17 @@ body {
 
 label {
     display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
+    margin: 15px 0 5px;
     font-weight: bold;
 }
 
-input[type="text"],
+select,
 textarea {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background: white;
     font: inherit;
 }
 
@@ -77,10 +68,10 @@ textarea {
 button {
     padding: 12px 20px;
     margin-top: 20px;
-    background: #222;
-    color: white;
     border: none;
     border-radius: 5px;
+    background: #222;
+    color: white;
     cursor: pointer;
     font: inherit;
 }
@@ -95,6 +86,12 @@ button:hover {
     color: #444;
 }
 
+.hint {
+    color: #777;
+    font-size: 14px;
+}
+
+/* Tabele danych. */
 .table-wrapper {
     overflow-x: auto;
 }
@@ -108,6 +105,7 @@ th,
 td {
     padding: 13px;
     text-align: left;
+    vertical-align: middle;
     border-bottom: 1px solid #ddd;
 }
 
@@ -117,7 +115,10 @@ th {
 
 .actions {
     white-space: nowrap;
-    vertical-align: middle;
+}
+
+.actions a {
+    color: #222;
 }
 
 .actions form {
@@ -125,27 +126,24 @@ th {
     margin-left: 15px;
 }
 
-.actions .disabled {
-    margin-left: 15px;
-}
-
-.actions a {
-    color: #222;
-}
-
-.delete-btn {
+.actions button {
     margin: 0;
     padding: 8px 12px;
-    background: #a00000;
-}
-
-.delete-btn:hover {
-    background: #7a0000;
-}
-
-.disabled {
-    color: #888;
     font-size: 13px;
+}
+
+.toggle-btn {
+    background: #555;
+}
+
+.active {
+    color: #15803d;
+    font-weight: bold;
+}
+
+.inactive {
+    color: #a00000;
+    font-weight: bold;
 }
 
 .message-error {
@@ -156,18 +154,14 @@ th {
     color: #15803d;
 }
 
-@media (max-width: 600px) {
+/* Układ dla mniejszych ekranów. */
+@media (max-width: 700px) {
     .topbar {
-        align-items: flex-start;
         flex-direction: column;
+        align-items: flex-start;
     }
 
     .card {
         padding: 15px;
-    }
-
-    th,
-    td {
-        padding: 10px;
     }
 }

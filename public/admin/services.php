@@ -1,6 +1,8 @@
 
 <?php
 
+// Zarządzanie ofertą usług.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -12,11 +14,13 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function escape($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Stan formularza i komunikaty operacji.
 $errors = [];
 $success = $_SESSION['service_success'] ?? '';
 unset($_SESSION['service_success']);
@@ -33,6 +37,7 @@ $form = [
 
 $editing = false;
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $token = $_POST['csrf_token'] ?? '';
@@ -265,12 +270,14 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' && isset($_GET['edit'])) {
     }
 }
 
+// Kategorie dostępne w formularzu usługi.
 $categories = $pdo->query(
     'SELECT id, name
      FROM service_categories
      ORDER BY name'
 )->fetchAll(PDO::FETCH_ASSOC);
 
+// Usługi i ich przypisania do pracowników.
 $services = $pdo->query(
     'SELECT
         s.*,
@@ -283,13 +290,14 @@ $services = $pdo->query(
 )->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<!-- Widok strony: Zarządzanie ofertą usług -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usługi — Sharp Society Barber</title>
-    <link rel="stylesheet" href="../css/style-services.css">
+    <link rel="stylesheet" href="../css/style-admin-services.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
@@ -297,9 +305,11 @@ $services = $pdo->query(
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
 
-        <?php require '../../includes/admin_nav.php'; ?>
+        <?php require '../../includes/admin-nav.php'; ?>
 
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 
@@ -543,7 +553,7 @@ $services = $pdo->query(
 
     </main>
 
-<script src="../js/script-services.js" defer></script>
+<script src="../js/script-admin-services.js" defer></script>
 
 </body>
 </html>

@@ -1,5 +1,7 @@
 <?php
 
+// Filtrowanie wizyt pracownika i dozwolone zmiany statusów.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -11,6 +13,7 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Profil pracownika zidentyfikowany na podstawie sesji.
 $stmt = $pdo->prepare(
     "SELECT id, active
      FROM employees
@@ -24,6 +27,7 @@ $employee = $stmt->fetch(PDO::FETCH_ASSOC);
 $employeeId = $employee ? (int) $employee['id'] : 0;
 $employeeActive = $employee && (int) $employee['active'] === 1;
 
+// Dozwolone statusy filtrowania i edycji.
 $allowedStatuses = [
     'pending',
     'confirmed',
@@ -31,6 +35,7 @@ $allowedStatuses = [
     'cancelled'
 ];
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function escape($value): string
 {
     return htmlspecialchars(
@@ -40,6 +45,7 @@ function escape($value): string
     );
 }
 
+// Tłumaczenie kodów statusu na etykiety.
 function statusName($status): string
 {
     $statuses = [
@@ -52,6 +58,7 @@ function statusName($status): string
     return $statuses[$status] ?? $status;
 }
 
+// Parametry filtrowania listy.
 $dateFilter = $_GET['date'] ?? '';
 $statusFilter = $_GET['status'] ?? '';
 
@@ -89,6 +96,7 @@ if ($filterQuery !== '') {
     $redirectUrl .= '?' . $filterQuery;
 }
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $message = '';
@@ -202,6 +210,7 @@ unset(
     $_SESSION['employee_message_type']
 );
 
+// Pobranie wizyt przypisanych do zalogowanego pracownika.
 $reservations = [];
 
 if ($employeeId > 0 && $employeeActive) {
@@ -248,6 +257,7 @@ if ($employeeId > 0 && $employeeActive) {
 
 ?>
 
+<!-- Widok strony: Filtrowanie wizyt pracownika i dozwolone zmiany statusów -->
 <!DOCTYPE html>
 <html lang="pl">
 
@@ -257,7 +267,8 @@ if ($employeeId > 0 && $employeeActive) {
 
     <title>Moje rezerwacje — Sharp Society Barber</title>
 
-    <link rel="stylesheet" href="../css/style-employee.css">
+    <link rel="stylesheet" href="../css/style-employee-common.css">
+    <link rel="stylesheet" href="../css/style-employee-reservations.css">
 </head>
 
 <body>
@@ -271,11 +282,17 @@ if ($employeeId > 0 && $employeeActive) {
                 <a href="index.php">Panel główny</a>
                 <a href="reservations.php">Rezerwacje</a>
                 <a href="../profile.php">Mój profil</a>
-                <a href="../logout.php">Wyloguj</a>
+                <form action="../logout.php" method="POST" class="logout-form">
+                    <input type="hidden" name="csrf_token"
+                           value="<?= escape($_SESSION['csrf_token']) ?>">
+                    <button type="submit" class="logout-button">Wyloguj</button>
+                </form>
             </nav>
 
         </div>
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 

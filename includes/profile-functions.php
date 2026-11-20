@@ -1,5 +1,8 @@
 <?php
 
+// Odczyt i aktualizacja danych profilu użytkownika.
+
+// Pobranie danych profilu z bazy.
 function getUserProfile(PDO $pdo, int $userId): array|false
 {
     $stmt = $pdo->prepare(
@@ -13,6 +16,7 @@ function getUserProfile(PDO $pdo, int $userId): array|false
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+// Walidacja i zapis zmian danych profilu.
 function updateUserProfile(
     PDO $pdo,
     int $userId,

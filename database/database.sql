@@ -1,3 +1,5 @@
+-- Schemat bazy i dane demonstracyjne. Import usuwa istniejącą bazę.
+
 DROP DATABASE IF EXISTS sharp_society_barber;
 
 CREATE DATABASE sharp_society_barber
@@ -7,6 +9,7 @@ COLLATE utf8mb4_polish_ci;
 USE sharp_society_barber;
 
 
+-- Konta, role i dane uwierzytelniania.
 CREATE TABLE users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
@@ -25,6 +28,7 @@ CREATE TABLE service_categories (
     description TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
+-- Katalog usług.
 CREATE TABLE services (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     category_id INT UNSIGNED NOT NULL,
@@ -41,6 +45,7 @@ CREATE TABLE services (
     ON DELETE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
+-- Profile pracowników i przypisania usług.
 CREATE TABLE employees (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNSIGNED NOT NULL UNIQUE,
@@ -73,6 +78,7 @@ CREATE TABLE employee_services (
         ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
+-- Tygodniowy grafik dostępności pracowników.
 CREATE TABLE employee_availability (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     employee_id INT UNSIGNED NOT NULL,
@@ -93,6 +99,7 @@ CREATE TABLE employee_availability (
         CHECK (start_time < end_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci;
 
+-- Wizyty, terminy i statusy rezerwacji.
 CREATE TABLE reservations (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     user_id INT UNSIGNED NOT NULL,
@@ -144,6 +151,7 @@ ON reservations(status);
 CREATE INDEX idx_services_category
 ON services(category_id);
 
+-- Dane demonstracyjne salonu.
 INSERT INTO service_categories (name, description) VALUES
 ('Strzyżenie', 'Usługi związane ze strzyżeniem włosów'),
 ('Broda', 'Usługi związane z pielęgnacją i stylizacją brody'),

@@ -1,3 +1,6 @@
+/* Wybór pracownika i przypisania usług. */
+
+/* Wybór pracownika. */
 .employee-selector {
     max-width: 500px;
 }
@@ -56,6 +59,7 @@
     margin-top: 10px;
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 700px) {
     .services-grid {
         grid-template-columns: 1fr;

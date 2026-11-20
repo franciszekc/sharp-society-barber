@@ -1,6 +1,8 @@
 
 <?php
 
+// Kalendarz terminów, API dostępności i transakcyjny zapis rezerwacji.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -16,11 +18,13 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie tekstu przed wyświetleniem w HTML.
 function bookingEscape($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Walidacja dodatniego identyfikatora.
 function bookingId($value): int
 {
     return filter_var($value, FILTER_VALIDATE_INT, [
@@ -29,10 +33,11 @@ function bookingId($value): int
 }
 
 
+// Zakres dat udostępnianych przez kalendarz.
 $today = new DateTimeImmutable('today');
 $lastDate = $today->modify('+30 days');
 
-// Pobieramy aktywne usługi
+// Oferta i przypisania usług do pracowników.
 
 $services = $pdo->query(
     'SELECT s.id, s.name, s.duration, s.price, c.name AS category
@@ -42,7 +47,7 @@ $services = $pdo->query(
      ORDER BY c.name, s.name'
 )->fetchAll(PDO::FETCH_ASSOC);
 
-// Pobieramy aktywnych barberów
+// Aktywni pracownicy dostępni do rezerwacji.
 
 $employees = $pdo->query(
     "SELECT e.id, u.name, u.surname
@@ -52,7 +57,7 @@ $employees = $pdo->query(
      ORDER BY u.surname, u.name"
 )->fetchAll(PDO::FETCH_ASSOC);
 
-// Pobieramy przypisania usług do barberów
+// Relacje usług z aktywnymi pracownikami.
 
 $assignments = $pdo->query(
     "SELECT es.employee_id, es.service_id
@@ -64,6 +69,7 @@ $assignments = $pdo->query(
        AND u.role = 'employee' AND s.active = 1"
 )->fetchAll(PDO::FETCH_ASSOC);
 
+// Indeksy przyspieszające weryfikację wybranej pary usługa–barber.
 $serviceById = [];
 $validPairs = [];
 
@@ -84,7 +90,7 @@ foreach ($assignments as $assignment) {
 
 }
 
-// Obsługa żądań JavaScript
+// API kalendarza i zapisu rezerwacji.
 
 $api = $_GET['api'] ?? ($_POST['api'] ?? '');
 
@@ -103,7 +109,7 @@ if ($api !== '') {
 
     };
 
-    // Pobieranie wolnych terminów
+    // Dostępne terminy z grafiku i zajętych przedziałów.
 
     if ($api === 'slots' && $_SERVER['REQUEST_METHOD'] === 'GET') {
 
@@ -148,7 +154,7 @@ if ($api !== '') {
 
         $days = [];
 
-        // Generowanie terminarza na 31 dni
+        // Generowanie terminarza na 31 dni.
 
         for ($offset = 0; $offset <= 30; $offset++) {
 
@@ -205,7 +211,7 @@ if ($api !== '') {
 
             ksort($slots);
 
-            // Kolor dnia
+            // Stan dostępności dnia w kalendarzu.
 
             if (!$isWorking) {
                 $status = 'closed';
@@ -229,7 +235,7 @@ if ($api !== '') {
 
     }
 
-    // Zapisywanie rezerwacji
+    // Zapis wizyty: walidacja, blokady i transakcja.
 
     if ($api === 'book' && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -276,8 +282,7 @@ if ($api !== '') {
 
             $pdo->beginTransaction();
 
-            // Blokujemy konto klienta, aby równoczesne żądania
-            // nie mogły ominąć limitu ani kontroli konfliktów.
+            // Blokada klienta: ochrona limitu i kolizji przy równoczesnych zapisach.
 
             $stmt = $pdo->prepare(
                 "SELECT id
@@ -306,7 +311,7 @@ if ($api !== '') {
                 throw new RuntimeException('Pracownik nie jest dostępny.');
             }
 
-            // Ponownie sprawdzamy przypisanie usługi
+            // Ponowna weryfikacja dostępności usługi.
 
             $stmt = $pdo->prepare(
                 "SELECT 1
@@ -331,7 +336,7 @@ if ($api !== '') {
                 );
             }
 
-            // Sprawdzamy godziny pracy
+            // Kontrola grafiku pracownika.
 
             $stmt = $pdo->prepare(
                 'SELECT 1
@@ -356,7 +361,7 @@ if ($api !== '') {
                 );
             }
 
-            // Sprawdzamy konflikt z wizytami barbera
+            // Kontrola kolizji pracownika.
 
             if (
                 bookingEmployeeHasConflict(
@@ -374,7 +379,7 @@ if ($api !== '') {
 
             }
 
-            // Sprawdzamy konflikt klienta i limit rezerwacji
+            // Kontrola kolizji klienta i limitu trzech wizyt.
 
             $policyError = bookingClientPolicyError(
                 $pdo,
@@ -389,7 +394,7 @@ if ($api !== '') {
             }
 
 
-            // Zapisujemy rezerwację
+            // Zapis rezerwacji i zatwierdzenie transakcji.
 
             $stmt = $pdo->prepare(
                 "INSERT INTO reservations
@@ -440,6 +445,7 @@ if ($api !== '') {
 
 }
 
+// Dane początkowe przekazywane do skryptu kalendarza.
 $bookingData = [
     'services' => $services,
     'employees' => $employees,
@@ -448,6 +454,7 @@ $bookingData = [
 ];
 
 ?>
+<!-- Widok strony: Kalendarz terminów, API dostępności i transakcyjny zapis rezerwacji -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -456,7 +463,7 @@ $bookingData = [
 
     <title>Umów wizytę — Sharp Society Barber</title>
 
-    <link rel="stylesheet" href="../css/style-booking.css">
+    <link rel="stylesheet" href="../css/style-client-services.css">
 
     <script>
         window.bookingData = <?= json_encode(
@@ -465,9 +472,11 @@ $bookingData = [
         ) ?>;
     </script>
 
-    <script src="../js/booking.js" defer></script>
+    <script src="../js/script-client-services.js" defer></script>
 </head>
 <body>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="booking-page">
 

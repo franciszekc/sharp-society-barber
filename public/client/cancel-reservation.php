@@ -1,6 +1,8 @@
 
 <?php
 
+// Bezpieczne anulowanie własnej przyszłej wizyty.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -10,6 +12,7 @@ requireRole('client');
 
 date_default_timezone_set('Europe/Warsaw');
 
+// Akceptowane są wyłącznie żądania POST.
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: reservations.php');
     exit;
@@ -26,6 +29,7 @@ if (
     exit;
 }
 
+// Identyfikator wizyty i kontrola własności w zapytaniu UPDATE.
 $reservationId = filter_var(
     $_POST['reservation_id'] ?? null,
     FILTER_VALIDATE_INT
@@ -41,6 +45,7 @@ $now = new DateTimeImmutable();
 $today = $now->format('Y-m-d');
 $currentTime = $now->format('H:i:s');
 
+// Anulowanie tylko przyszłej aktywnej rezerwacji klienta.
 $stmt = $pdo->prepare(
     "UPDATE reservations
      SET status = 'cancelled'

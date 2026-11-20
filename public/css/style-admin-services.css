@@ -1,3 +1,4 @@
+/* Formularze i tabela usług administratora. */
 
 * {
     box-sizing: border-box;
@@ -117,6 +118,7 @@ button:hover {
     color: #444;
 }
 
+/* Tabele danych. */
 .table-wrapper {
     overflow-x: auto;
 }
@@ -201,6 +203,7 @@ th {
     color: #15803d;
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 700px) {
     .topbar {
         flex-direction: column;

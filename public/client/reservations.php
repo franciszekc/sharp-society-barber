@@ -1,6 +1,8 @@
 
 <?php
 
+// Lista własnych wizyt klienta, historia i formularze anulowania.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -15,6 +17,7 @@ if (empty($_SESSION['csrf_token'])) {
 
 date_default_timezone_set('Europe/Warsaw');
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function escape($value): string
 {
     return htmlspecialchars(
@@ -24,6 +27,7 @@ function escape($value): string
     );
 }
 
+// Tłumaczenie kodów statusu na etykiety.
 function statusName($status): string
 {
     $statuses = [
@@ -36,6 +40,7 @@ function statusName($status): string
     return $statuses[$status] ?? $status;
 }
 
+// Rezerwacje pobierane wyłącznie dla zalogowanego klienta.
 $stmt = $pdo->prepare(
     "SELECT
         r.id,
@@ -60,6 +65,7 @@ $stmt = $pdo->prepare(
 $stmt->execute([getUserId()]);
 $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+// Podział wizyt na przyszłe i historyczne.
 $upcoming = [];
 $history = [];
 
@@ -91,6 +97,7 @@ usort($upcoming, function ($a, $b) {
 
 ?>
 
+<!-- Widok strony: Lista własnych wizyt klienta, historia i formularze anulowania -->
 <!DOCTYPE html>
 <html lang="pl">
 
@@ -134,6 +141,8 @@ usort($upcoming, function ($a, $b) {
         </div>
 
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
         <?php if (isset($_SESSION['reservation_success'])): ?>

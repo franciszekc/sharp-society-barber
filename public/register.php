@@ -1,7 +1,10 @@
 <?php
 
+// Rejestracja konta i walidacja danych formularza.
+
 require_once '../config/database.php';
 
+// Dane formularza i komunikaty walidacji.
 $errors = [];
 $success = '';
 $name = '';
@@ -9,11 +12,13 @@ $surname = '';
 $email = '';
 $phone = '';
 
+// Kodowanie wartości przed wyświetleniem w HTML.
 function escape(string $value): string
 {
     return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') 
     {
     $name = trim(is_string($_POST['name'] ?? null) ? $_POST['name'] : '');
@@ -151,15 +156,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         }
     }
 ?>
+<!-- Widok strony: Rejestracja konta i walidacja danych formularza -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rejestracja — Sharp Society Barber</title>
-    <link rel="stylesheet" href="css/style-register.css">
+    <link rel="stylesheet" href="css/style-public-register.css">
 </head>
 <body>
+<!-- Zawartość główna panelu. -->
 <main class="container">
     <h1>Rejestracja</h1>
 
@@ -204,6 +211,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     <p class="login-link">Masz już konto? 
         <a href="login.php">Zaloguj się</a></p>
 </main>
-<script src="js/script-register.js" defer></script>
+<script src="js/script-public-register.js" defer></script>
 </body>
 </html>

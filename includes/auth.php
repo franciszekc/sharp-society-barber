@@ -1,10 +1,13 @@
 
 <?php
 
+// Sesja użytkownika, kontrola logowania i uprawnień.
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Sprawdzenie identyfikatora użytkownika w sesji.
 function isLoggedIn(): bool
 {
     return isset($_SESSION['user_id'])
@@ -12,6 +15,7 @@ function isLoggedIn(): bool
         && (int) $_SESSION['user_id'] > 0;
 }
 
+// Wymuszenie logowania przed otwarciem strony.
 function requireLogin(string $loginPath = 'login.php'): void
 {
     if (!isLoggedIn()) {
@@ -20,6 +24,7 @@ function requireLogin(string $loginPath = 'login.php'): void
     }
 }
 
+// Odczyt identyfikatora zalogowanego użytkownika.
 function getUserId(): ?int
 {
     if (!isLoggedIn()) {
@@ -29,6 +34,7 @@ function getUserId(): ?int
     return (int) $_SESSION['user_id'];
 }
 
+// Odczyt aktualnej roli z sesji.
 function getUserRole(): ?string
 {
     if (!isLoggedIn()) {
@@ -38,6 +44,7 @@ function getUserRole(): ?string
     return $_SESSION['user_role'] ?? null;
 }
 
+// Ograniczenie dostępu do wymaganej roli.
 function requireRole(string $role): void
 {
     requireLogin();
@@ -48,6 +55,7 @@ function requireRole(string $role): void
     }
 }
 
+// Synchronizacja sesji z aktywnym kontem w bazie.
 function refreshUserSession(PDO $pdo, string $loginPath = 'login.php'): void
 {
     requireLogin($loginPath);

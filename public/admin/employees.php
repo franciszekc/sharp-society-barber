@@ -1,5 +1,7 @@
 <?php
 
+// Zarządzanie profilami pracowników.
+
 require_once '../../config/database.php';
 require_once '../../includes/auth.php';
 
@@ -11,11 +13,13 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
+// Kodowanie danych pracownika przed wyświetleniem.
 function employeeEscape($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
+// Stan formularza zarządzania profilami pracowników.
 $errors = [];
 $success = $_SESSION['employee_success'] ?? '';
 unset($_SESSION['employee_success']);
@@ -23,6 +27,7 @@ unset($_SESSION['employee_success']);
 $editEmployee = null;
 $description = '';
 
+// Obsługa żądania formularza i walidacja danych.
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $token = $_POST['csrf_token'] ?? '';
@@ -202,6 +207,7 @@ $availableUsers = $pdo->query(
      ORDER BY u.surname, u.name"
 )->fetchAll(PDO::FETCH_ASSOC);
 
+// Dane pracowników i powiązanych kont.
 $employees = $pdo->query(
     'SELECT
         e.id,
@@ -224,21 +230,24 @@ $employees = $pdo->query(
 )->fetchAll(PDO::FETCH_ASSOC);
 
 ?>
+<!-- Widok strony: Zarządzanie profilami pracowników -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pracownicy — Sharp Society Barber</title>
-    <link rel="stylesheet" href="../css/style-employees.css">
+    <link rel="stylesheet" href="../css/style-admin-common.css">
     <link rel="stylesheet" href="../css/style-admin-nav.css">
 </head>
 <body>
 
     <header class="topbar">
         <h1>Sharp Society Barber</h1>
-        <?php require '../../includes/admin_nav.php'; ?>
+        <?php require '../../includes/admin-nav.php'; ?>
     </header>
+
+    <!-- Zawartość główna panelu. -->
 
     <main class="container">
 

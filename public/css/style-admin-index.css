@@ -1,3 +1,4 @@
+/* Panel główny administratora: układ, statystyki i moduły. */
 
 * {
     box-sizing: border-box;
@@ -121,6 +122,7 @@ section {
     background: #444;
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 600px) {
     .topbar {
         flex-direction: column;

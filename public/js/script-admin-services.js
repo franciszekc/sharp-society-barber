@@ -1,3 +1,6 @@
+// Zachowanie przewijania przy edycji usług.
+
+// Inicjalizacja zdarzeń po załadowaniu dokumentu.
 document.addEventListener('DOMContentLoaded', function () {
 
     const storageKey = 'services_scroll_position';

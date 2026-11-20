@@ -1,3 +1,6 @@
+// Zachowanie pozycji listy użytkowników po formularzach.
+
+// Inicjalizacja zdarzeń po załadowaniu dokumentu.
 document.addEventListener('DOMContentLoaded', function () {
 
     const storageKey = 'users_scroll_position';

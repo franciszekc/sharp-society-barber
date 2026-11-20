@@ -1,3 +1,6 @@
+/* Filtry, statusy i akcje rezerwacji administratora. */
+
+/* Filtrowanie rezerwacji. */
 .reservation-filters {
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr auto;
@@ -63,6 +66,7 @@ table small {
     white-space: nowrap;
 }
 
+/* Statusy rezerwacji. */
 .status-pending {
     background: #fff3cd;
     color: #856404;
@@ -83,6 +87,7 @@ table small {
     color: #991b1b;
 }
 
+/* Akcje dostępne dla rezerwacji. */
 .reservation-actions {
     min-width: 120px;
     white-space: nowrap;
@@ -126,12 +131,14 @@ table small {
     color: #777;
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 1000px) {
     .reservation-filters {
         grid-template-columns: 1fr 1fr;
     }
 }
 
+/* Układ dla mniejszych ekranów. */
 @media (max-width: 600px) {
     .reservation-filters {
         grid-template-columns: 1fr;
